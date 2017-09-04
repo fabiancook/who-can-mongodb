@@ -153,6 +153,42 @@ async function test7(database) {
   Assert(!result);
 }
 
+async function test8(database) {
+
+  const can = new WhoCan(database);
+
+  const identifier = UUID.v4(),
+    action = UUID.v4(),
+    target = UUID.v4();
+
+  await can.allow(identifier, action, target);
+
+  Assert(await can.can(identifier, {
+    $in: [
+      action,
+      UUID.v4(),
+      UUID.v4()
+    ]
+  }, target));
+}
+
+async function test9(database) {
+
+  const can = new WhoCan(database);
+
+  const identifier = UUID.v4(),
+    action = UUID.v4(),
+    target = UUID.v4();
+
+  Assert(!(await can.can(identifier, {
+    $in: [
+      action,
+      UUID.v4(),
+      UUID.v4()
+    ]
+  }, target)));
+}
+
 async function runWithDatabase(database) {
   await [
     test1,
@@ -161,7 +197,9 @@ async function runWithDatabase(database) {
     test4,
     test5,
     test6,
-    test7
+    test7,
+    test8,
+    test9
   ].reduce((promise, f, index) => {
     return promise.then(async function() {
       console.group(`Running Test ${index + 1}`);
