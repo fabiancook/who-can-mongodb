@@ -1,6 +1,6 @@
-# WhoCan
+# WhoCan MongoDB
 
-Who can do what?
+Who can do what? MongoDB style
 
 ### Install
 
