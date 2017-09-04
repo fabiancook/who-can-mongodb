@@ -189,6 +189,53 @@ async function test9(database) {
   }, target)));
 }
 
+async function test10(database) {
+
+  const can = new WhoCan(database);
+
+  const identifier = {
+      type: UUID.v4(),
+      id: UUID.v4()
+    },
+    action = UUID.v4(),
+    target = {
+      type: UUID.v4(),
+      id: UUID.v4()
+    };
+
+  await can.allow(identifier, action, target);
+
+  Assert(await can.can(identifier, action, target));
+}
+
+async function test11(database) {
+
+  const can = new WhoCan(database);
+
+  const identifier = {
+      type: UUID.v4(),
+      id: UUID.v4()
+    },
+    action = UUID.v4(),
+    target = {
+      id: UUID.v4(),
+      type: UUID.v4()
+    };
+
+  await can.allow(identifier, action, target);
+
+  // Order must be correct
+  Assert(!(await can.can(identifier, action, {
+    type: target.type,
+    id: target.id
+  })));
+
+  Assert(await can.can(identifier, action, {
+    id: target.id,
+    type: target.type
+  }));
+}
+
 async function runWithDatabase(database) {
   await [
     test1,
@@ -199,7 +246,9 @@ async function runWithDatabase(database) {
     test6,
     test7,
     test8,
-    test9
+    test9,
+    test10,
+    test11
   ].reduce((promise, f, index) => {
     return promise.then(async function() {
       console.group(`Running Test ${index + 1}`);
