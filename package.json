@@ -1,0 +1,21 @@
+{
+  "name": "who-can-mongodb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": "Fabian Cook <fabian@shipper.co.nz>",
+  "license": "MIT",
+  "dependencies": {
+    "who-can": "^1.1.0"
+  },
+  "repository": "fabiancook/who-can-mongodb",
+  "devDependencies": {
+    "console-group": "^0.3.3",
+    "mongo-in-memory": "^0.0.5",
+    "mongodb": "^2.2.31",
+    "uuid": "^3.1.0"
+  }
+}
